@@ -29,9 +29,7 @@ fastify.post('/lowercase', (request, reply) => {
 
 fastify.get('/user/:id', (request, reply) => {
   const id = request.query.id;
-  console.log(id);
   const user = users[id];
-  console.log(user);
   if (user) {
     return reply.status(200).send(user);
   }
@@ -39,5 +37,23 @@ fastify.get('/user/:id', (request, reply) => {
   return reply.status(400).send(`User not exist`);
 });
 
+fastify.get('/users', (request, reply) => {
+  const filter = request.query.filter;
+  const value = request.query.value;
+  const arrUsers = Object.values(users);
+  block_1: if (filter && value) {
+    const arrUser = [];
+    arrUsers.forEach((item) => {
+      if (item[filter] == value) {
+        arrUser.push(item);
+      }
+    });
+    if (arrUser.length == 0) {
+      break block_1;
+    };
+    return reply.status(200).send(arrUser);
+  }
+  return reply.status(400).send(arrUsers);
+});
 
 export default fastify;
