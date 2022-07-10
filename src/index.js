@@ -28,12 +28,11 @@ fastify.post('/lowercase', (request, reply) => {
 });
 
 fastify.get('/user/:id', (request, reply) => {
-  const id = request.query.id;
+  const id = request.params.id;
   const user = users[id];
   if (user) {
     return reply.status(200).send(user);
   }
-
   return reply.status(400).send(`User not exist`);
 });
 
